@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Où et quand acheter moins cher en Gironde ?</title>
+<style>
+  :root{
+    --bg:#0f1115; --surface:#171a21; --surface2:#1e222b;
+    --ink:#e8eaed; --ink2:#a6adba; --muted:#6b7280;
+    --accent:#4f8cf6; --accent2:#8fb8ff; --border:#2a2e38;
+    --good:#3ecf8e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:48px 20px 80px;}
+  header{margin-bottom:40px;}
+  h1{font-size:1.9rem; margin:0 0 10px; letter-spacing:-0.01em;}
+  .lead{color:var(--ink2); font-size:1.05rem; max-width:65ch;}
+  .byline{color:var(--muted); font-size:0.85rem; margin-top:14px;}
+  .byline a{color:var(--accent2);}
+  h2{font-size:1.3rem; margin:56px 0 16px; padding-bottom:10px; border-bottom:1px solid var(--border);}
+  h3{font-size:1rem; color:var(--ink2); margin:0 0 10px; font-weight:600;}
+  p{color:var(--ink2);}
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:20px;}
+  .map-card img{width:100%; border-radius:8px; display:block; background:#fff;}
+  .stat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:20px 0 30px;}
+  .stat{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .stat .num{font-size:1.6rem; font-weight:700; color:var(--accent2);}
+  .stat .label{font-size:0.85rem; color:var(--muted); margin-top:4px;}
+  .chart-card{overflow-x:auto;}
+  svg{display:block; width:100%; height:auto;}
+  .bar-label{fill:var(--ink2); font-size:11px;}
+  .bar-value{fill:var(--ink); font-size:11px; font-weight:600;}
+  .axis-line{stroke:var(--border); stroke-width:1;}
+  .grid-line{stroke:var(--border); stroke-width:1; stroke-dasharray:2,3;}
+  .tick-label{fill:var(--muted); font-size:10px;}
+  table{width:100%; border-collapse:collapse; margin-top:8px;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); font-size:0.92rem;}
+  th{color:var(--muted); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.03em;}
+  td{color:var(--ink2);}
+  td.num, th.num{text-align:right;}
+  td.strong{color:var(--ink); font-weight:600;}
+  ul{color:var(--ink2); padding-left:20px;}
+  li{margin-bottom:6px;}
+  .tag-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+  .tag{background:var(--surface2); border:1px solid var(--border); color:var(--ink2); font-size:0.78rem; padding:4px 10px; border-radius:999px;}
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--border); color:var(--muted); font-size:0.85rem;}
+  footer a{color:var(--accent2);}
+  code{background:var(--surface2); padding:2px 6px; border-radius:4px; font-size:0.9em;}
+  .legend{display:flex; gap:16px; margin-bottom:10px; font-size:0.82rem; color:var(--ink2);}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:middle;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Où et quand acheter moins cher en Gironde ?</h1>
+    <p class="lead">Analyse du marché immobilier girondin à partir des données DVF (Demandes de valeurs foncières) 2025, publiées par la DGFiP sur data.gouv.fr — 20&nbsp;074 ventes exploitables, agrégées par commune, par mois et par zone.</p>
+  </header>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="num">988 € – 7 318 €</div><div class="label">prix médian au m² selon la commune</div></div>
+    <div class="stat"><div class="num">3 400–3 500 €</div><div class="label">prix médian au m², stable sur l'année</div></div>
+    <div class="stat"><div class="num">20 074</div><div class="label">ventes exploitables analysées</div></div>
+  </div>
+
+  <h2>Où acheter moins cher : la carte des prix</h2>
+  <div class="card map-card">
+    <img src="gironde_map.png" alt="Carte des prix médians au m² par commune en Gironde">
+    <p style="margin-top:14px; margin-bottom:0; font-size:0.9rem;">Chaque point est une commune avec au moins 10 ventes sur 2025 (196 communes sur 487). La couleur indique le prix médian au m², la taille le volume de ventes.</p>
+  </div>
+
+  <h2>Les communes les plus abordables et les plus chères</h2>
+  <div class="card chart-card">
+    <h3>Prix médian au m² — 5 communes les moins chères vs 5 les plus chères (min. 10 ventes)</h3>
+    <div id="chart-communes"></div>
+  </div>
+
+  <h2>Quand acheter : l'évolution sur 2025</h2>
+  <div class="card chart-card">
+    <h3>Prix médian au m² par mois — Gironde</h3>
+    <div id="chart-mensuel"></div>
+    <p style="margin-top:14px; margin-bottom:0; font-size:0.9rem;">Les prix restent globalement stables sur l'année (±3 % autour de 3 400–3 500 €/m²) : il n'y a pas de "bon mois" pour négocier un prix nettement plus bas. En revanche, juillet et octobre concentrent le plus de ventes, donc le plus de choix.</p>
+  </div>
+
+  <h2>Quel bien pour quel budget</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>Zone</th><th class="num">Prix médian /m²</th><th class="num">Surface pour 250 000 €</th><th class="num">Ventes</th></tr></thead>
+      <tbody id="zone-table"></tbody>
+    </table>
+    <p style="margin-top:18px; margin-bottom:0; font-size:0.9rem;">Appartements : 3 625 €/m² médian, 52 m² type. Maisons : 3 212 €/m² médian, 94 m² type.</p>
+  </div>
+
+  <h2>Méthodologie et confidentialité</h2>
+  <div class="card">
+    <h3>Source</h3>
+    <p>Demandes de valeurs foncières géolocalisées (DVF), data.gouv.fr / DGFiP, Licence Ouverte 2.0.</p>
+    <h3>Nettoyage</h3>
+    <p>Ventes classiques uniquement (hors VEFA, échanges, expropriations) ; maisons et appartements ; mutations à un seul lot (pour un prix au m² fiable) ; valeurs aberrantes retirées (1er/99e centile). Résultat : 20 074 ventes exploitables sur 111 712 lignes brutes.</p>
+    <h3>Confidentialité</h3>
+    <p>Aucune adresse ni vente individuelle n'est affichée. Toutes les figures sont des agrégats par commune ou par mois, avec un seuil minimum de 10 ventes par commune pour la fiabilité statistique et pour éviter toute réidentification.</p>
+    <h3>Limites</h3>
+    <p>Analyse portant sur une seule année (2025) et un seul département. Les petites communes (moins de 10 ventes) sont exclues des figures par commune, faute d'échantillon suffisant.</p>
+    <div class="tag-row">
+      <span class="tag">Python</span>
+      <span class="tag">pandas</span>
+      <span class="tag">matplotlib</span>
+    </div>
+  </div>
+
+  <footer>
+    Code source, données nettoyées et script de reproduction :
+    <a href="https://github.com/Vigorovich/portfolio-immo-gironde">github.com/Vigorovich/portfolio-immo-gironde</a>
+  </footer>
+
+</div>
+
+<script>
+// ---- data ----
+const communesExtremes = [
+  {"nom":"Sainte-Foy-la-Grande","prix_m2":987.5},
+  {"nom":"Préchac","prix_m2":1209.6},
+  {"nom":"Reignac","prix_m2":1270.2},
+  {"nom":"Barsac","prix_m2":1317.3},
+  {"nom":"Étauliers","prix_m2":1320.0},
+  {"nom":"La Teste-de-Buch","prix_m2":4750.0},
+  {"nom":"Andernos-les-Bains","prix_m2":4803.8},
+  {"nom":"Lacanau","prix_m2":5240.5},
+  {"nom":"Lège-Cap-Ferret","prix_m2":5798.6},
+  {"nom":"Arcachon","prix_m2":7317.6}
+];
+
+const mensuel = [
+  {"mois":"2025-01","prix_m2":3473.7,"n":1337},
+  {"mois":"2025-02","prix_m2":3376.5,"n":1421},
+  {"mois":"2025-03","prix_m2":3426.7,"n":1503},
+  {"mois":"2025-04","prix_m2":3423.8,"n":2058},
+  {"mois":"2025-05","prix_m2":3352.5,"n":1144},
+  {"mois":"2025-06","prix_m2":3455.6,"n":1773},
+  {"mois":"2025-07","prix_m2":3470.6,"n":2199},
+  {"mois":"2025-08","prix_m2":3494.5,"n":1486},
+  {"mois":"2025-09","prix_m2":3521.1,"n":1837},
+  {"mois":"2025-10","prix_m2":3522.3,"n":1876},
+  {"mois":"2025-11","prix_m2":3311.9,"n":1428},
+  {"mois":"2025-12","prix_m2":3426.1,"n":2012}
+];
+
+const zones = [
+  {"zone":"Bordeaux","prix_m2":4264,"surface_250k":59,"n":4506},
+  {"zone":"Bassin d'Arcachon","prix_m2":5403,"surface_250k":46,"n":1200},
+  {"zone":"Libournais (rural)","prix_m2":2242,"surface_250k":112,"n":449}
+];
+
+// ---- zone table ----
+const tbody = document.getElementById('zone-table');
+zones.forEach(z=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="strong">${z.zone}</td><td class="num">${z.prix_m2.toLocaleString('fr-FR')} €</td><td class="num">${z.surface_250k} m²</td><td class="num">${z.n.toLocaleString('fr-FR')}</td>`;
+  tbody.appendChild(tr);
+});
+
+// ---- horizontal bar chart: communes extremes ----
+function barChartCommunes(el, data){
+  const w = 860, barH = 26, gap = 10, padL = 190, padR = 70, padTop = 10, padBottom = 10;
+  const h = data.length * (barH+gap) + padTop + padBottom;
+  const max = Math.max(...data.map(d=>d.prix_m2));
+  const scaleW = w - padL - padR;
+
+  let svg = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  data.forEach((d,i)=>{
+    const y = padTop + i*(barH+gap);
+    const bw = (d.prix_m2/max) * scaleW;
+    const isLow = i < 5;
+    const color = isLow ? '#3ecf8e' : '#f0965c';
+    svg += `<text x="${padL-10}" y="${y+barH/2+4}" text-anchor="end" class="bar-label">${d.nom}</text>`;
+    svg += `<rect x="${padL}" y="${y}" width="${bw}" height="${barH}" rx="4" fill="${color}" fill-opacity="0.85"/>`;
+    svg += `<text x="${padL+bw+8}" y="${y+barH/2+4}" class="bar-value">${Math.round(d.prix_m2).toLocaleString('fr-FR')} €/m²</text>`;
+  });
+  svg += `</svg>`;
+  el.innerHTML = `<div class="legend">
+    <span><span class="legend-dot" style="background:#3ecf8e"></span>Moins chères</span>
+    <span><span class="legend-dot" style="background:#f0965c"></span>Plus chères</span>
+  </div>` + svg;
+}
+
+// ---- line chart: monthly ----
+function lineChartMensuel(el, data){
+  const w = 860, h = 320, padL = 60, padR = 20, padTop = 20, padBottom = 40;
+  const plotW = w - padL - padR, plotH = h - padTop - padBottom;
+  const prices = data.map(d=>d.prix_m2);
+  const minP = Math.min(...prices)*0.97, maxP = Math.max(...prices)*1.03;
+  const x = i => padL + (i/(data.length-1)) * plotW;
+  const y = p => padTop + plotH - ((p-minP)/(maxP-minP)) * plotH;
+
+  let svg = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // gridlines + y labels
+  const steps = 4;
+  for(let s=0; s<=steps; s++){
+    const val = minP + (maxP-minP)*(s/steps);
+    const yy = y(val);
+    svg += `<line x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}" class="grid-line"/>`;
+    svg += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="tick-label">${Math.round(val).toLocaleString('fr-FR')} €</text>`;
+  }
+
+  // x axis labels (every month, short)
+  data.forEach((d,i)=>{
+    const label = d.mois.slice(5); // MM
+    svg += `<text x="${x(i)}" y="${h-padBottom+18}" text-anchor="middle" class="tick-label">${label}</text>`;
+  });
+
+  // line
+  const points = data.map((d,i)=>`${x(i)},${y(d.prix_m2)}`).join(' ');
+  svg += `<polyline points="${points}" fill="none" stroke="#4f8cf6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+
+  // dots
+  data.forEach((d,i)=>{
+    svg += `<circle cx="${x(i)}" cy="${y(d.prix_m2)}" r="4" fill="#4f8cf6"/>`;
+  });
+
+  svg += `<line x1="${padL}" y1="${padTop+plotH}" x2="${w-padR}" y2="${padTop+plotH}" class="axis-line"/>`;
+  svg += `</svg>`;
+  el.innerHTML = svg;
+}
+
+barChartCommunes(document.getElementById('chart-communes'), communesExtremes);
+lineChartMensuel(document.getElementById('chart-mensuel'), mensuel);
+</script>
+</body>
+</html>
+
