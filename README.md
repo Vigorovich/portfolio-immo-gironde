@@ -3,7 +3,7 @@
 Analyse du marché immobilier girondin à partir des données DVF (Demandes de
 valeurs foncières) 2025, publiées par la DGFiP sur data.gouv.fr.
 
-**Version lisible avec graphiques et carte** : [voir le rapport complet](https://claude.ai/code/artifact/dc48a488-2966-4534-9e43-5c14e23ba161)
+**Version en ligne avec graphiques et carte** : [voir le site](https://vigorovich.github.io/portfolio-immo-gironde/) · [version Notion avec analyse complète](https://app.notion.com/p/3e25e59ef67381b3a176e76712a9fa92)
 
 ## Question
 
