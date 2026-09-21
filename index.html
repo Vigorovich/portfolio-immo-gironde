@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Où et quand acheter moins cher en Gironde ?</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   :root{
     --bg:#0f1115; --surface:#171a21; --surface2:#1e222b;
@@ -78,15 +79,20 @@
 
   <h2>Les communes les plus abordables et les plus chères</h2>
   <div class="card chart-card">
-    <h3>Prix médian au m² — 5 communes les moins chères vs 5 les plus chères (min. 10 ventes)</h3>
-    <div id="chart-communes"></div>
+    <h3>Gironde : communes extrêmes <span style="color:var(--muted); font-weight:400;">— minimum 20 ventes en 2025</span></h3>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#3ecf8e"></span>Moins cher</span>
+      <span><span class="legend-dot" style="background:#f0965c"></span>Plus cher</span>
+    </div>
+    <div style="height:360px;"><canvas id="chart-communes"></canvas></div>
+    <p style="margin-top:14px; margin-bottom:0; font-size:0.9rem;">Entre Sainte-Foy-la-Grande (988 €/m²) et Arcachon (7 318 €/m²), le rapport est de 1 à 7. Les cinq communes les moins chères sont toutes à l'intérieur des terres, les cinq plus chères toutes sur le littoral.</p>
   </div>
 
   <h2>Quand acheter : l'évolution sur 2025</h2>
   <div class="card chart-card">
-    <h3>Prix médian au m² par mois — Gironde</h3>
-    <div id="chart-mensuel"></div>
-    <p style="margin-top:14px; margin-bottom:0; font-size:0.9rem;">Les prix restent globalement stables sur l'année (±3 % autour de 3 400–3 500 €/m²) : il n'y a pas de "bon mois" pour négocier un prix nettement plus bas. En revanche, juillet et octobre concentrent le plus de ventes, donc le plus de choix.</p>
+    <h3>Gironde : ventes et prix par mois <span style="color:var(--muted); font-weight:400;">— barres = ventes, ligne = prix médian</span></h3>
+    <div style="height:360px;"><canvas id="chart-mensuel"></canvas></div>
+    <p style="margin-top:14px; margin-bottom:0; font-size:0.9rem;">Le prix médian reste stable toute l'année (±3 % autour de 3 400–3 500 €/m²) : il n'y a pas de « bon mois » pour négocier un prix nettement plus bas. En revanche, le volume de ventes varie beaucoup : juillet et octobre concentrent le plus de transactions, tandis que mai et janvier sont plus calmes. Novembre affiche le prix médian le plus bas de l'année (3 312 €/m²), mais l'écart avec le reste de l'année reste faible.</p>
   </div>
 
   <h2>Quel bien pour quel budget</h2>
@@ -125,31 +131,31 @@
 <script>
 // ---- data ----
 const communesExtremes = [
-  {"nom":"Sainte-Foy-la-Grande","prix_m2":987.5},
-  {"nom":"Préchac","prix_m2":1209.6},
-  {"nom":"Reignac","prix_m2":1270.2},
-  {"nom":"Barsac","prix_m2":1317.3},
-  {"nom":"Étauliers","prix_m2":1320.0},
-  {"nom":"La Teste-de-Buch","prix_m2":4750.0},
-  {"nom":"Andernos-les-Bains","prix_m2":4803.8},
-  {"nom":"Lacanau","prix_m2":5240.5},
-  {"nom":"Lège-Cap-Ferret","prix_m2":5798.6},
-  {"nom":"Arcachon","prix_m2":7317.6}
+  {"commune":"Sainte-Foy-la-Grande","prix_m2":988,"groupe":"Moins cher"},
+  {"commune":"Étauliers","prix_m2":1320,"groupe":"Moins cher"},
+  {"commune":"Castillon-la-Bataille","prix_m2":1333,"groupe":"Moins cher"},
+  {"commune":"Saint-Ciers-sur-Gironde","prix_m2":1414,"groupe":"Moins cher"},
+  {"commune":"La Réole","prix_m2":1418,"groupe":"Moins cher"},
+  {"commune":"La Teste-de-Buch","prix_m2":4750,"groupe":"Plus cher"},
+  {"commune":"Andernos-les-Bains","prix_m2":4804,"groupe":"Plus cher"},
+  {"commune":"Lacanau","prix_m2":5240,"groupe":"Plus cher"},
+  {"commune":"Lège-Cap-Ferret","prix_m2":5799,"groupe":"Plus cher"},
+  {"commune":"Arcachon","prix_m2":7318,"groupe":"Plus cher"}
 ];
 
 const mensuel = [
-  {"mois":"2025-01","prix_m2":3473.7,"n":1337},
-  {"mois":"2025-02","prix_m2":3376.5,"n":1421},
-  {"mois":"2025-03","prix_m2":3426.7,"n":1503},
-  {"mois":"2025-04","prix_m2":3423.8,"n":2058},
-  {"mois":"2025-05","prix_m2":3352.5,"n":1144},
-  {"mois":"2025-06","prix_m2":3455.6,"n":1773},
-  {"mois":"2025-07","prix_m2":3470.6,"n":2199},
-  {"mois":"2025-08","prix_m2":3494.5,"n":1486},
-  {"mois":"2025-09","prix_m2":3521.1,"n":1837},
-  {"mois":"2025-10","prix_m2":3522.3,"n":1876},
-  {"mois":"2025-11","prix_m2":3311.9,"n":1428},
-  {"mois":"2025-12","prix_m2":3426.1,"n":2012}
+  {"mois":"Jan","prix_m2":3474,"n":1337},
+  {"mois":"Fév","prix_m2":3376,"n":1421},
+  {"mois":"Mar","prix_m2":3427,"n":1503},
+  {"mois":"Avr","prix_m2":3424,"n":2058},
+  {"mois":"Mai","prix_m2":3352,"n":1144},
+  {"mois":"Jun","prix_m2":3456,"n":1773},
+  {"mois":"Jul","prix_m2":3471,"n":2199},
+  {"mois":"Aoû","prix_m2":3495,"n":1486},
+  {"mois":"Sep","prix_m2":3521,"n":1837},
+  {"mois":"Oct","prix_m2":3522,"n":1876},
+  {"mois":"Nov","prix_m2":3312,"n":1428},
+  {"mois":"Déc","prix_m2":3426,"n":2012}
 ];
 
 const zones = [
@@ -166,73 +172,99 @@ zones.forEach(z=>{
   tbody.appendChild(tr);
 });
 
+// ---- chart.js shared theming ----
+Chart.defaults.color = '#a6adba';
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+Chart.defaults.borderColor = '#2a2e38';
+
 // ---- horizontal bar chart: communes extremes ----
-function barChartCommunes(el, data){
-  const w = 860, barH = 26, gap = 10, padL = 190, padR = 70, padTop = 10, padBottom = 10;
-  const h = data.length * (barH+gap) + padTop + padBottom;
-  const max = Math.max(...data.map(d=>d.prix_m2));
-  const scaleW = w - padL - padR;
-
-  let svg = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
-  data.forEach((d,i)=>{
-    const y = padTop + i*(barH+gap);
-    const bw = (d.prix_m2/max) * scaleW;
-    const isLow = i < 5;
-    const color = isLow ? '#3ecf8e' : '#f0965c';
-    svg += `<text x="${padL-10}" y="${y+barH/2+4}" text-anchor="end" class="bar-label">${d.nom}</text>`;
-    svg += `<rect x="${padL}" y="${y}" width="${bw}" height="${barH}" rx="4" fill="${color}" fill-opacity="0.85"/>`;
-    svg += `<text x="${padL+bw+8}" y="${y+barH/2+4}" class="bar-value">${Math.round(d.prix_m2).toLocaleString('fr-FR')} €/m²</text>`;
-  });
-  svg += `</svg>`;
-  el.innerHTML = `<div class="legend">
-    <span><span class="legend-dot" style="background:#3ecf8e"></span>Moins chères</span>
-    <span><span class="legend-dot" style="background:#f0965c"></span>Plus chères</span>
-  </div>` + svg;
-}
-
-// ---- line chart: monthly ----
-function lineChartMensuel(el, data){
-  const w = 860, h = 320, padL = 60, padR = 20, padTop = 20, padBottom = 40;
-  const plotW = w - padL - padR, plotH = h - padTop - padBottom;
-  const prices = data.map(d=>d.prix_m2);
-  const minP = Math.min(...prices)*0.97, maxP = Math.max(...prices)*1.03;
-  const x = i => padL + (i/(data.length-1)) * plotW;
-  const y = p => padTop + plotH - ((p-minP)/(maxP-minP)) * plotH;
-
-  let svg = `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
-
-  // gridlines + y labels
-  const steps = 4;
-  for(let s=0; s<=steps; s++){
-    const val = minP + (maxP-minP)*(s/steps);
-    const yy = y(val);
-    svg += `<line x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}" class="grid-line"/>`;
-    svg += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="tick-label">${Math.round(val).toLocaleString('fr-FR')} €</text>`;
+new Chart(document.getElementById('chart-communes'), {
+  type: 'bar',
+  data: {
+    labels: communesExtremes.map(d=>d.commune),
+    datasets: [{
+      label: '€ / m²',
+      data: communesExtremes.map(d=>d.prix_m2),
+      backgroundColor: communesExtremes.map(d=> d.groupe==='Moins cher' ? '#3ecf8e' : '#f0965c'),
+      borderRadius: 4,
+      barThickness: 22
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: (ctx)=> `${ctx.parsed.x.toLocaleString('fr-FR')} €/m²` }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { callback: (v)=> v>=1000 ? (v/1000).toLocaleString('fr-FR',{maximumFractionDigits:1})+'k €' : v+' €' },
+        grid: { color:'#2a2e38' }
+      },
+      y: { grid: { display:false } }
+    }
   }
+});
 
-  // x axis labels (every month, short)
-  data.forEach((d,i)=>{
-    const label = d.mois.slice(5); // MM
-    svg += `<text x="${x(i)}" y="${h-padBottom+18}" text-anchor="middle" class="tick-label">${label}</text>`;
-  });
-
-  // line
-  const points = data.map((d,i)=>`${x(i)},${y(d.prix_m2)}`).join(' ');
-  svg += `<polyline points="${points}" fill="none" stroke="#4f8cf6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-
-  // dots
-  data.forEach((d,i)=>{
-    svg += `<circle cx="${x(i)}" cy="${y(d.prix_m2)}" r="4" fill="#4f8cf6"/>`;
-  });
-
-  svg += `<line x1="${padL}" y1="${padTop+plotH}" x2="${w-padR}" y2="${padTop+plotH}" class="axis-line"/>`;
-  svg += `</svg>`;
-  el.innerHTML = svg;
-}
-
-barChartCommunes(document.getElementById('chart-communes'), communesExtremes);
-lineChartMensuel(document.getElementById('chart-mensuel'), mensuel);
+// ---- combo chart: monthly ventes (bar) + prix médian (line) ----
+new Chart(document.getElementById('chart-mensuel'), {
+  data: {
+    labels: mensuel.map(d=>d.mois),
+    datasets: [
+      {
+        type: 'bar',
+        label: 'Ventes',
+        data: mensuel.map(d=>d.n),
+        backgroundColor: 'rgba(79,140,246,0.35)',
+        borderRadius: 3,
+        yAxisID: 'y'
+      },
+      {
+        type: 'line',
+        label: 'Prix médian',
+        data: mensuel.map(d=>d.prix_m2),
+        borderColor: '#ffb454',
+        backgroundColor: '#ffb454',
+        pointBackgroundColor: '#ffb454',
+        pointRadius: 3,
+        tension: 0.3,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: true, labels: { usePointStyle: true, color:'#a6adba' } },
+      tooltip: {
+        callbacks: {
+          label: (ctx)=> ctx.dataset.label==='Prix médian'
+            ? `Prix médian : ${ctx.parsed.y.toLocaleString('fr-FR')} €/m²`
+            : `Ventes : ${ctx.parsed.y.toLocaleString('fr-FR')}`
+        }
+      }
+    },
+    scales: {
+      y: {
+        type: 'linear', position: 'left',
+        title: { display:true, text:'Ventes', color:'#6b7280' },
+        grid: { color:'#2a2e38' }
+      },
+      y1: {
+        type: 'linear', position: 'right',
+        title: { display:true, text:'€ / m²', color:'#6b7280' },
+        grid: { drawOnChartArea:false }
+      },
+      x: { grid: { display:false } }
+    }
+  }
+});
 </script>
 </body>
 </html>
-
